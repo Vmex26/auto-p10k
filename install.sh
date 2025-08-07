@@ -30,22 +30,33 @@ check_dependency() {
         echo "[!] $cmd no está instalado, Instalando.."
         pkg install -y $cmd
     else
-        echo "[¡] Dependencia $cmd satisfecha"
+        echo "[*] Dependencia $cmd satisfecha"
     fi
   done
   install_oh-my-zsh
 }
 
 install_oh-my-zsh() {
-  pass
-  #Aqui incluire el codigo que instale oh my zsh
+  echo "[¡] Se va ejecutar otro script"
+  echo "Siga las instrucciones (press Enter)"
+  read pepe
+  
+  p10k
+}
+
+p10k(){
+  #git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+  #echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+  #echo "[*] p10k instalado correctamente!"
+  #echo "[¡] Ejecute zsh para configurarlo"
+  echo "Instalacion proximamente.."
 }
 
 check_root() {
   #Chekeamos que no se ejecute en root o con sudo
   user=$(whoami)
   if [ $user == "root" ]; then
-    echo "[!] No ejecute el script como root/sudo"
+    echo "[*] No ejecute el script como root/sudo"
     echo "[!] Saliendo..."
     exit 2
   else
