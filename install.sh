@@ -39,8 +39,10 @@ check_dependency() {
 install_oh-my-zsh() {
   echo "[¡] Se va ejecutar otro script"
   echo "Siga las instrucciones (press Enter)"
-  read pepe
-  
+  read null
+  chmod +x ./oh-my-zsh/install.sh
+  bash ./oh-my-zsh/install.sh
+  echo "[*] Ahora procederemos a instalar p10k"  
   p10k
 }
 
