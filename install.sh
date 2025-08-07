@@ -52,6 +52,16 @@ p10k(){
   #echo "[*] p10k instalado correctamente!"
   #echo "[¡] Ejecute zsh para configurarlo"
   echo "Instalacion proximamente.."
+  echo "Desea instalar lsd, bat y nvim?"
+  read confirm
+  if [ $confirm == "y" || $confirm == "yes" ]; then
+    pkg install -y lsd bat nvim
+    echo "alias ls="lsd"" >> ~/.zshrc
+    echo "alias cat="bat"" >> ~/.zshrc
+    echo "alias vim="nvim"" >> ~/.zshrc
+    echo "alias catn="cat"" >> ~/.zshrc
+  fi
+    
 }
 
 check_root() {
