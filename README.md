@@ -5,14 +5,8 @@
 - [Powerlevel10k](https://github.com/romkatv/powerlevel10k)
 - Optional packages: `lsd`, `bat`, and `neovim` 
 
-This script is specially designed for **Termux** environments on Android, but a version for Debian distros is being developed.
-
-
-
 ## Requirements
-- Termux (recommended version: latest from [F-Droid](https://f-droid.org/en/packages/com.termux/))
-
-
+- Termux or debian based systems
 ## Installation & Usage
 
 1. Clone this repository:
@@ -34,8 +28,7 @@ This script is specially designed for **Termux** environments on Android, but a 
 ---
 
 > [!WARNING]
-> This script is **intended for Termux**. If you run it on a regular Linux environment, some commands (like `pkg install`) will fail.
-> **Do not run as root**. The script will refuse to execute in root mode.
+> **Do not run as root if you are in termux**. The script will refuse to execute in root mode.
 
 ---
 
