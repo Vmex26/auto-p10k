@@ -45,4 +45,6 @@ This script is specially designed for **Termux** environments on Android, but a 
 >  zsh
 >  ```
 >  to start the Powerlevel10k configuration wizard.
-      
+
+---
+Parts of this project include code from [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh), licensed under the MIT License.
