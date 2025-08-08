@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#Confirma que estamos en termux
+#Cofirm if we are in termux
 
 termux_confirm() {
   if [ -n "$TERMUX_VERSION" ]; then
