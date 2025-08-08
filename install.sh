@@ -55,7 +55,7 @@ p10k(){
   echo "Desea instalar lsd, bat y nvim? (y/n)"
   read confirm
   if [ $confirm == "y" ]; then
-    pkg install -y lsd bat nvim
+    pkg install -y lsd bat neovim
     echo "alias ls="lsd"" >> ~/.zshrc
     echo "alias cat="bat"" >> ~/.zshrc
     echo "alias vim="nvim"" >> ~/.zshrc
