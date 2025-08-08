@@ -47,14 +47,14 @@ install_oh-my-zsh() {
 }
 
 p10k(){
-  #git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-  #echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
-  #echo "[*] p10k instalado correctamente!"
-  #echo "[¡] Ejecute zsh para configurarlo"
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+  echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+  echo "[*] p10k instalado correctamente!"
+  echo "[¡] Ejecute zsh para configurarlo"
   echo "Instalacion proximamente.."
-  echo "Desea instalar lsd, bat y nvim?"
+  echo "Desea instalar lsd, bat y nvim? (y/n)"
   read confirm
-  if [ $confirm == "y" || $confirm == "yes" ]; then
+  if [ $confirm == "y" ]; then
     pkg install -y lsd bat nvim
     echo "alias ls="lsd"" >> ~/.zshrc
     echo "alias cat="bat"" >> ~/.zshrc
