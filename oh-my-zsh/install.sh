@@ -550,7 +550,7 @@ EOF
     exit
   fi
 
-  echo "[¡] oh-my-zsh instalado corectamente!"
+  echo "[¡] oh-my-zsh installed correctly!"
 }
 
 main "$@"
