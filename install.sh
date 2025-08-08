@@ -4,55 +4,54 @@
 
 termux_confirm() {
   if [ -n "$TERMUX_VERSION" ]; then
-    echo "zi termux"
     check_root
   else
-    echo "[!] Este script solo funciona en termux" 
-    echo "[?] Desea continuar? (yes/no)"
+    echo "[!] This script is only for Termux" 
+    echo "[?] Do you want to continue? (yes/no)"
     read confirm
     if [ $confirm == "yes" ]; then
       
       echo "oka"
       check_root
     else 
-      echo "por favor escriba 'yes' para continuar"
+      echo "[!] Please type 'yes' to continue"
     fi
   fi
 }
 
+#Check and install required dependecy
 check_dependency() {
-  #Aqui vamos a confirmar que esten las dependencias
-  #Instalaremos las dependencias nesesarias
-  DEPENDENCIAS=(git curl wget zsh)
+  DEPENDENCIES=(git curl wget zsh)
 
-  for cmd in "${DEPENDENCIAS[@]}"; do
+  for cmd in "${DEPENDENCIES[@]}"; do
     if ! command -v $cmd &> /dev/null; then
-        echo "[!] $cmd no está instalado, Instalando.."
+        echo "[!] $cmd is not installed. Installing .."
         pkg install -y $cmd
     else
-        echo "[*] Dependencia $cmd satisfecha"
+        echo "[*] Dependecy $cmd is alredy satisfied"
     fi
   done
+
   install_oh-my-zsh
 }
 
+#Install oh my zsh
 install_oh-my-zsh() {
-  echo "[¡] Se va ejecutar otro script"
-  echo "Siga las instrucciones (press Enter)"
+  echo "[!] Another script will be executed"
+  echo "Follow the instructions (press Enter)"
   read null
   chmod +x ./oh-my-zsh/install.sh
   bash ./oh-my-zsh/install.sh
-  echo "[*] Ahora procederemos a instalar p10k"  
+  echo "[*] Proceeding to install p10k"  
   p10k
 }
 
 p10k(){
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
   echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
-  echo "[*] p10k instalado correctamente!"
-  echo "[¡] Ejecute zsh para configurarlo"
-  echo "Instalacion proximamente.."
-  echo "Desea instalar lsd, bat y nvim? (y/n)"
+  echo "[*] Powerlevel10k installed successfully!"
+  echo "[!] Run 'zsh' to configure it"
+  echo "[?] Do you want to install lsd, bat, and neovim? (y/n)"
   read confirm
   if [ $confirm == "y" ]; then
     pkg install -y lsd bat neovim
@@ -64,16 +63,17 @@ p10k(){
     
 }
 
+# Prevent running as root or with sudo
 check_root() {
-  #Chekeamos que no se ejecute en root o con sudo
   user=$(whoami)
-  if [ $user == "root" ]; then
-    echo "[*] No ejecute el script como root/sudo"
-    echo "[!] Saliendo..."
+  if [ "$user" == "root" ]; then
+    echo "[*] Do not run this script as root or with sudo"
+    echo "[!] Exiting..."
     exit 2
   else
     check_dependency
   fi
  }
 
+#Start the script
 termux_confirm
