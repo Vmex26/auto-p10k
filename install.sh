@@ -1,23 +1,45 @@
 #!/usr/bin/env bash
 
-#Cofirm if we are in termux
+#Cofirm if we are in termux or in another distro
 
-termux_confirm() {
+detect_system() {
   if [ -n "$TERMUX_VERSION" ]; then
+    IS_TERMUX=true
+    PKG_CMD="pkg"
+    echo "[*] Running in termux"
+    echo "If we are not in termux quit (Ctrl + c)"
+    read null
+    check_root
+  elif command -v apt &> /dev/null; then
+    IS_TERMUX=false
+    PKG_CMD="sudo apt"
+    echo "[*] Running in debian based"
+    echo "[¡] Press enter to continue"
+    read null
     check_root
   else
-    echo "[!] This script is only for Termux" 
-    echo "[?] Do you want to continue? (yes/no)"
-    read confirm
-    if [ $confirm == "yes" ]; then
-      
-      echo "oka"
-      check_root
-    else 
-      echo "[!] Please type 'yes' to continue"
-    fi
-  fi
+    echo "[!] No compatible package manager or distro found"
+    exit 1
+  fi  
 }
+
+# Prevent running as root in termux
+check_root() {
+  user=$(whoami)
+  if [ "$IS_TERMUX" == true ]; then  
+    if [ "$user" == "root" ]; then
+      echo "[!] Do not run this script as root"
+      echo "[!] Exiting..."
+      exit 2
+    else
+      check_dependency
+    fi
+  else
+    echo "[*] You will be asked for the sudo password to install some packages. (press Enter)"
+    read null
+    check_dependency
+  fi
+ }
 
 #Check and install required dependecy
 check_dependency() {
@@ -26,7 +48,7 @@ check_dependency() {
   for cmd in "${DEPENDENCIES[@]}"; do
     if ! command -v $cmd &> /dev/null; then
         echo "[!] $cmd is not installed. Installing .."
-        pkg install -y $cmd
+        $PKG_CMD install -y $cmd
     else
         echo "[*] Dependecy $cmd is alredy satisfied"
     fi
@@ -50,30 +72,25 @@ p10k(){
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
   echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
   echo "[*] Powerlevel10k installed successfully!"
-  echo "[!] Run 'zsh' to configure it"
+  echo "[!] Run 'zsh' to configure it (press Enter)"
+  read null
   echo "[?] Do you want to install lsd, bat, and neovim? (y/n)"
   read confirm
-  if [ $confirm == "y" ]; then
-    pkg install -y lsd bat neovim
-    echo "alias ls="lsd"" >> ~/.zshrc
-    echo "alias cat="bat"" >> ~/.zshrc
-    echo "alias vim="nvim"" >> ~/.zshrc
-    echo "alias catn="cat"" >> ~/.zshrc
+  if [ "$confirm" = "y" ]; then
+    $PKG_CMD install -y lsd bat neovim
+    echo "alias ls='lsd'" >> ~/.zshrc
+    echo "alias cat='bat'" >> ~/.zshrc
+    echo "alias vim='nvim'" >> ~/.zshrc
+    echo "alias catn='cat'" >> ~/.zshrc
+  else
+    echo "[*] Extra packages not installed"
   fi
-    
+  echo "[*] Installation completed, now run zsh"
+  
 }
 
-# Prevent running as root or with sudo
-check_root() {
-  user=$(whoami)
-  if [ "$user" == "root" ]; then
-    echo "[*] Do not run this script as root or with sudo"
-    echo "[!] Exiting..."
-    exit 2
-  else
-    check_dependency
-  fi
- }
+
 
 #Start the script
-termux_confirm
+detect_system
+
